@@ -1,6 +1,6 @@
-.border-outline {
-    background-color : var(--color-lightgrey);
-    border : 2px solid var(--color-violet);
+.tile-generic {
+    background-color : var(--app-chat-tile-background-color);
+    border : 2px solid var(--app-chat-tile-border-color);
 }
 
 .chat-message-box {
