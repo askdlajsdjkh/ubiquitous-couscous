@@ -9,10 +9,10 @@
 
         <!-- chat body -->
         <div class="scrollable  grow p-[.5rem] flex flex-col justify-end-safe gap-[.5rem]">
-            <div class="tile-generic chat-message-box origin-left"> <app-chat-message /> </div>
-            <div class="tile-generic chat-message-box origin-right"> <app-chat-message /> </div>
-            <div class="tile-generic chat-message-box origin-left"> <app-chat-message /> </div>
-            <div class="tile-generic chat-message-box origin-left"> <app-chat-message /> </div>
+            @for (message of messages; track message.id) 
+            {
+                <div class="tile-generic chat-message-box origin-left"> <app-chat-message /> </div>
+            }
         </div>
 
         <!-- chat footer -->

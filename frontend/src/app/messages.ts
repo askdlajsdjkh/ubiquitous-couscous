@@ -3,6 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
 
+export interface AppChatMessage {
+    id: number;
+    origin: 'left' | 'right';
+    text: string;
+}
+
 @Injectable({
     providedIn : 'root',
 })
@@ -16,7 +22,7 @@ export class Messages
             map((val) =>
             {
                 console.log(val);
-                return val as object[];
+                return val as AppChatMessage[];
             })
         );
     }
