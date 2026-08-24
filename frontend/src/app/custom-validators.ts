@@ -10,7 +10,7 @@ export function disallowCharactersValidator(regex: RegExp): ValidatorFn
         if (haveDisallowedCharacters)
         {
             return {
-                haveDisallowedCharacters,
+                disallowedCharacters: true,
             };
         }
 
@@ -26,7 +26,7 @@ export const matchingPasswordsValidator: ValidatorFn = (control) =>
     if (p1 === null || p2 === null || p1.value.trim() !== p2.value.trim())
     {
         return {
-            isPasswordsMismatched: true,
+            mismatchedPasswords: true,
         };
     }
 

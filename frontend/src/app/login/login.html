@@ -2,26 +2,38 @@
     <div class="grow"></div>
 
     <div class="w-100 h-full p-4 bg-(--app-global-background-color)">
-        <form class="flex flex-col mt-4" (submit)="onSubmit($event)">
+        <form class="mt-4 flex flex-col" [formGroup]="form" (ngSubmit)="onSubmit()">
             <div>
                 <input
-                    #loginUsername
                     class="app-input  w-full px-3 py-1 text-lg"
                     type="text"
                     placeholder="Username"
                     autocomplete="username"
-                    required
+                    formControlName="username"
                 />
+                @if (form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched))
+                {
+                    @if (form.controls.username.hasError('required'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Username is required.</div>
+                    }
+                }
             </div>
             <div>
                 <input
-                    #loginPassword
                     class="app-input  w-full mt-1.5 px-3 py-1 text-lg"
                     type="password"
                     placeholder="Password"
                     autocomplete="current-password"
-                    required
+                    formControlName="password"
                 />
+                @if (form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched))
+                {
+                    @if (form.controls.password.hasError('required'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Password is required.</div>
+                    }
+                }
             </div>
 
             @if (errorMessage$ | async; as errorMessage)

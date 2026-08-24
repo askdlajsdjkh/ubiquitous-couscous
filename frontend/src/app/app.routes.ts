@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { Chat } from './chat/chat';
-import { Login } from './login/login';
 import { loginGuard } from './login-guard';
-import { Register } from './register/register';
 import { Home } from './home/home';
-import { ChatBody } from './chat-body/chat-body';
+import { Register } from './register/register';
+import { Login } from './login/login';
+import { Chat } from './chat/chat';
 import { ChatCreate } from './chat-create/chat-create';
 import { ChatJoin } from './chat-join/chat-join';
+import { ChatBody } from './chat-body/chat-body';
 
 
 export const routes: Routes = [

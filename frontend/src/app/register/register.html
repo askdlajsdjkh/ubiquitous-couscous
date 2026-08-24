@@ -11,6 +11,21 @@
                     autocomplete="username"
                     formControlName="username"
                 />
+                @if (form.controls.username.invalid && (form.controls.username.dirty || form.controls.username.touched))
+                {
+                    @if (form.controls.username.hasError('required'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Username is required.</div>
+                    }
+                    @if (form.controls.username.hasError('minlength'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Username must be at least 3 characters long.</div>
+                    }
+                    @if (form.controls.username.hasError('disallowedCharacters'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Username contains disallowed characters.</div>
+                    }
+                }
             </div>
             <div>
                 <input
@@ -20,6 +35,21 @@
                     autocomplete="current-password"
                     formControlName="password"
                 />
+                @if (form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched))
+                {
+                    @if (form.controls.password.hasError('required'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Password is required.</div>
+                    }
+                    @if (form.controls.password.hasError('minlength'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Password must be at least 3 characters long.</div>
+                    }
+                    @if (form.controls.password.hasError('disallowedCharacters'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Password contains disallowed characters.</div>
+                    }
+                }
             </div>
             <div>
                 <input
@@ -29,6 +59,17 @@
                     autocomplete="current-password"
                     formControlName="repeatedPassword"
                 />
+                @if (form.controls.repeatedPassword.invalid && (form.controls.repeatedPassword.dirty || form.controls.repeatedPassword.touched))
+                {
+                    @if (form.controls.repeatedPassword.hasError('required'))
+                    {
+                        <div class="ml-1 text-sm text-red-500">Password is required.</div>
+                    }
+                }
+                @if (form.invalid && form.hasError('mismatchedPasswords'))
+                {
+                    <div class="ml-1 text-sm text-red-500">Passwords are not matching.</div>
+                }
             </div>
 
             @if (errorMessage$ | async; as errorMessage)
