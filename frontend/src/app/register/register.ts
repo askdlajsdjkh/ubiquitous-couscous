@@ -45,9 +45,8 @@ export class Register
             },
             error: (err) =>
             {
-                if (err instanceof HttpErrorResponse)
+                if (err instanceof HttpErrorResponse && err.statusText)
                 {
-                    console.log(err);
                     this.errorMessage$.next(err.statusText);
                 }
                 else

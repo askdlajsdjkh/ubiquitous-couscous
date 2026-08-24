@@ -35,6 +35,25 @@ export function verifyPassword(password: string, hash: string, salt: string)
 }
 
 
+export function verifyUserRegisterCredentials(username: string, password: string): boolean
+{
+    if (!username || !password) return false;
+
+    const usernameIncludesForbiddenSymbols = /\s/i.test(username);
+    const passwordIncludesForbiddenSymbols = /\s/i.test(password);
+
+    const correctUsernameLength = username.length >= 3;
+    const correctPasswordLength = password.length >= 3;
+
+    return (
+        !usernameIncludesForbiddenSymbols
+        && !passwordIncludesForbiddenSymbols
+        && correctUsernameLength
+        && correctPasswordLength
+    );
+}
+
+
 export function safeJSONParse<T>(s: string, fallbackValue: T): T
 {
     try

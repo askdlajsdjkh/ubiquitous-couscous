@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { expressjwt, type Request as JWTRequest } from 'express-jwt';
 
 import { RedisClient, type DBChatMessage } from './lib/db.ts';
-import { verifyPassword } from './lib/lib.ts';
+import { verifyPassword, verifyUserRegisterCredentials } from './lib/lib.ts';
 import type { API, AppChat, AppUser, POSTChatCreate, POSTLogin, POSTLoginResponse, UserCredentials } from '../api.d.ts';
 
 
@@ -85,6 +85,14 @@ app.get('/', (req, res) =>
 app.post('/api/register', async (req, res) =>
 {
     const { username, password } = req.body as POSTLogin;
+
+    if (!verifyUserRegisterCredentials(username, password))
+    {
+        res.statusMessage = 'User credentials are not valid.';
+        res.status(500);
+        res.end();
+        return;
+    }
 
     if (await db.isUserExists(username))
     {
