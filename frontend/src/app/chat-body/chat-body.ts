@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -8,13 +8,20 @@ import { Auth } from '../auth';
 
 @Component({
   selector: 'app-chat-body',
-  imports: [ AsyncPipe, FormsModule, ],
+  imports: [ AsyncPipe, FormsModule ],
   templateUrl: './chat-body.html',
   styleUrl: './chat-body.css',
+  providers: [ Messages ],
 })
-export class ChatBody
+export class ChatBody implements OnInit
 {
     constructor()
+    {
+        //
+    }
+
+
+    public ngOnInit()
     {
         this.messagesService.messages$.subscribe((val) =>
         {
@@ -22,6 +29,9 @@ export class ChatBody
             this.messages$.next(this._messagesState);
         });
     }
+
+
+    @Input() private chatId?: string;
 
 
     @ViewChild('formInputText')
@@ -36,16 +46,6 @@ export class ChatBody
 
     public onSubmit()
     {
-        if (this.formInputText !== null)
-        {
-            const input = this.formInputText.nativeElement;
-
-            const inputValue = input.value.trim();
-            if (inputValue.length <= 0) return;
-
-            this.messagesService.sendMessage(inputValue);
-
-            input.value = '';
-        }
+        //
     }
 }

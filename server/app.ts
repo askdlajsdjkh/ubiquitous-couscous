@@ -1,3 +1,4 @@
+import http from 'http';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import jwt from 'jsonwebtoken';
@@ -260,7 +261,45 @@ app.post('/api/chat/id/:chatId/messages', async (req: JWTRequest, res) =>
 
 
 
-app.listen(SERVER_PORT, () =>
+/* HTTP server ***************************************************************/
+
+const server = http.createServer(app);
+
+server.on('upgrade', (request: http.IncomingMessage & { user: string | jwt.JwtPayload }, socket, head) =>
+{
+    try
+    {
+        // Extract URL query parameters
+        const url = new URL(request.url!, `http://${request.headers.host}`);
+        const token = url.searchParams.get('token');
+
+        if (!token)
+        {
+            socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+            socket.destroy();
+            return;
+        }
+
+        // Verify the JWT token
+        const decoded = jwt.verify(token, JWT_PRIVATE_KEY);
+        request.user = decoded;
+
+        // Complete the WebSocket handshake
+        wss.handleUpgrade(request, socket, head, (ws) =>
+        {
+            wss.emit('connection', ws, request);
+        });
+    }
+    catch (err)
+    {
+        console.error('Error while upgrading server:', err);
+        socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
+        socket.destroy();
+    }
+});
+
+
+server.listen(SERVER_PORT, () =>
 {
     console.log(`Server up and running on http://localhost:${SERVER_PORT}/`);
 });
